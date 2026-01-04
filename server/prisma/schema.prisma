@@ -14,12 +14,12 @@ datasource db {
 }
 
 model User {
-  id String @id @default(uuid())
+  id        String   @id @default(uuid())
   createdAt DateTime @default(now())
-  updateAt DateTime @updatedAt
+  updateAt  DateTime @updatedAt
 
-  email String @unique
-  phone String @unique
+  email    String @unique
+  phone    String @unique
   password String
   fullName String
 
@@ -31,12 +31,12 @@ model User {
 }
 
 model Employee {
-  id String @id @default(uuid())
-  bio String?
+  id        String  @id @default(uuid())
+  bio       String?
   avatarUrl String?
 
   userId String @unique
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   services Service[]
 
@@ -46,44 +46,44 @@ model Employee {
 }
 
 model Service {
-  id String @id @default(uuid())
-  name String
+  id          String  @id @default(uuid())
+  name        String
   description String
-  price Decimal
-  duration Int
+  price       Decimal
+  duration    Int
 
-  employees Employee[]
+  employees    Employee[]
   appointments Appointment[]
 }
 
 model Appointment {
-  id String @id @default(uuid())
+  id        String   @id @default(uuid())
   createdAt DateTime @default(now())
 
   startDateTime DateTime
-  endDateTime DateTime
+  endDateTime   DateTime
 
   status AppointmentStatus @default(PENDING)
-  notes String?
+  notes  String?
 
   clientId String
-  client User @relation("ClientAppointments", fields: [clientId], references: [id])
+  client   User   @relation("ClientAppointments", fields: [clientId], references: [id])
 
   employeeId String
-  employee Employee @relation(fields: [employeeId], references: [id])
+  employee   Employee @relation(fields: [employeeId], references: [id])
 
   serviceId String
-  service Service @relation(fields: [serviceId], references: [id])
+  service   Service @relation(fields: [serviceId], references: [id])
 }
 
 model Shift {
-  id String @id @default(uuid())
-  date DateTime
+  id        String   @id @default(uuid())
+  date      DateTime
   startTime DateTime
-  endTime DateTime
+  endTime   DateTime
 
   employeeId String
-  employee Employee @relation(fields: [employeeId], references: [id])
+  employee   Employee @relation(fields: [employeeId], references: [id])
 }
 
 enum Role {
