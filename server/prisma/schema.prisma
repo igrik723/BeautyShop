@@ -12,3 +12,90 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
+
+model User {
+  id String @id @default(uuid())
+  createdAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+
+  email String @unique
+  phone String @unique
+  password String
+  fullName String
+
+  role Role @default(CLIENT)
+
+  appointmentsAsClient Appointment[] @relation("ClientAppointments")
+
+  employeeProfile Employee?
+}
+
+model Employee {
+  id String @id @default(uuid())
+  bio String?
+  avatarUrl String?
+
+  userId String @unique
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  services Service[]
+
+  appointmenst Appointment[]
+
+  shifts Shift[]
+}
+
+model Service {
+  id String @id @default(uuid())
+  name String
+  description String
+  price Decimal
+  duration Int
+
+  employees Employee[]
+  appointments Appointment[]
+}
+
+model Appointment {
+  id String @id @default(uuid())
+  createdAt DateTime @default(now())
+
+  startDateTime DateTime
+  endDateTime DateTime
+
+  status AppointmentStatus @default(PENDING)
+  notes String?
+
+  clientId String
+  client User @relation("ClientAppointments", fields: [clientId], references: [id])
+
+  employeeId String
+  employee Employee @relation(fields: [employeeId], references: [id])
+
+  serviceId String
+  service Service @relation(fields: [serviceId], references: [id])
+}
+
+model Shift {
+  id String @id @default(uuid())
+  date DateTime
+  startTime DateTime
+  endTime DateTime
+
+  employeeId String
+  employee Employee @relation(fields: [employeeId], references: [id])
+}
+
+enum Role {
+  CLIENT
+  ADMIN
+  MASTER
+}
+
+enum AppointmentStatus {
+  PENDING
+  CONFIRMED
+  CANCELED
+  COMPLETED
+  NO_SHOW
+}
