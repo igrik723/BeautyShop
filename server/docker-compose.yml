@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  # Название сервиса для базы данных
+  db:
+    image: postgres:16-alpine # Используем легкую версию образа Postgres 16
+    container_name: Y-Poli # Имя контейнера, которое будет видно в Docker Desktop
+    restart: always
+    environment:
+      POSTGRES_USER: postgres # Твое имя пользователя
+      POSTGRES_PASSWORD: postgres # Твой пароль
+      POSTGRES_DB: Y-Poli # Название базы данных
+    ports:
+      - '5432:5432' # Прокидываем порт: [внешний]:[внутренний]
+    volumes:
+      - pgdata:/var/lib/postgresql/data # Данные сохранятся, даже если удалить контейнер
+
+# Описываем хранилище для данных
+volumes:
+  pgdata:
