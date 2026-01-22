@@ -1,6 +1,7 @@
 import { PrismaService } from "src/prisma.service";
 import { UserDto } from "./user.dto";
 import { hash } from "argon2";
+import { AuthDto } from "src/auth/dto/Auth.dto";
 
 export class UserService {
     constructor(private prisma: PrismaService) { }
@@ -25,7 +26,7 @@ export class UserService {
             user: rest
         }
     }
-    async create(dto: UserDto) {
+    async create(dto: AuthDto) {
         const user = {
             email: dto.email,
             phone: dto.phone,
