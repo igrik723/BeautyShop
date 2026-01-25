@@ -2,7 +2,7 @@ import { X, ShieldAlert } from "lucide-react";
 
 interface ModalErrorProps {
   title: string;
-  description?: string;
+  description: string | null;
   isOpen: boolean;
   onClose: () => void;
 }
@@ -16,7 +16,7 @@ export function ModalError({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex flex-col items-center justify-center p4">
+    <div className="fixed inset-0 z-50 flex flex-col items-center justify-center p-4">
       <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity animate-in fade-in duration-300"></div>
 
       <div className="relative w-full max-w-sm text-left rounded-2xl bg-slate-900/90 border border-white/10 p-6 shadow-2xl transition-all animate-in zoom-in-95 duration-300">
